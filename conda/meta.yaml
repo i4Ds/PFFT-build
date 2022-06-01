@@ -28,13 +28,13 @@ requirements:
   
 
 about:
-  home: https://gitlab.com/ska-telescope/external/rascil.git
+  home: https://github.com/mpip/pfft
   license: GPL-2.0-or-later
   license_file: COPYING
   summary: 'PFFT'
   description: |
    PFFT using FFTW3 with MPI extension for frameworks like pinocchio
-  doc_url: https://github.com/mpip/pfft/
+  doc_url: https://www-user.tu-chemnitz.de/~potts/workgroup/pippig/software.php#pfft
   dev_url: https://github.com/mpip/pfft/
 
 extra:
