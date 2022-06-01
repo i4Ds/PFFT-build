@@ -1,0 +1,43 @@
+{% set name = "pfft" %}
+{% set version = "1.0.8" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+   git_url: https://github.com/mpip/pfft.git
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ compiler('gfortran') }}
+    - openmpi
+    - fftw3
+    
+  host:
+   
+  run:
+
+#test:
+#  imports:
+  
+
+about:
+  home: https://gitlab.com/ska-telescope/external/rascil.git
+  license: GPL-2.0-or-later
+  license_file: COPYING
+  summary: 'PFFT'
+  description: |
+   PFFT using FFTW3 with MPI extension for frameworks like pinocchio
+  doc_url: https://github.com/mpip/pfft/
+  dev_url: https://github.com/mpip/pfft/
+
+extra:
+  recipe-maintainers:
+    - Filip Schramka 
+    
