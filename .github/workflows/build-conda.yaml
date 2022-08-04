@@ -1,10 +1,17 @@
-name: Build Conda Package Linux
+name: Build Conda Package
 
 on: [ push ]
 
+env:
+  OS_INST_FOLDER: empty
+  OS_INTERNAL_NAME: empty
+
 jobs:
   build_and_upload:
-    runs-on: ubuntu-20.04
+    strategy:
+    matrix:
+      os: [ macos-latest, ubuntu-latest ]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -20,14 +27,20 @@ jobs:
         run: |
           cd conda/
           conda build -c i4ds -c conda-forge .
-      - name: Publish to Conda Linux
+      - name: Publish to Conda
+        if: matrix.os == 'ubuntu-latest'
+            ${{ env.OS_INST_FOLDER = 'share' }}
+            ${{ env.OS_INTERNAL_NAME = 'linux' }}
+        if: matrix.os == 'macos-latest'
+            ${{ env.OS_INST_FOLDER = 'local' }}
+            ${{ env.OS_INTERNAL_NAME = 'osx' }}
         shell: bash -l {0}
         run: |
           conda activate base
-          anaconda -t ${{ secrets.ANACONDA_SECRET }} upload /usr/share/miniconda/conda-bld/linux-64/pfft*.tar.bz2 --force
+          anaconda -t ${{ secrets.ANACONDA_SECRET }} upload /usr/${{ env.OS_INST_FOLDER }}/miniconda/conda-bld/${{ env.OS_INTERNAL_NAME }}-64/pfft*.tar.bz2 --force
   install_and_test:
     needs: build_and_upload
-    runs-on: ubuntu-20.04
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
