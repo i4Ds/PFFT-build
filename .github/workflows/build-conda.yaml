@@ -9,8 +9,8 @@ env:
 jobs:
   build_and_upload:
     strategy:
-    matrix:
-      os: [ macos-latest, ubuntu-latest ]
+      matrix:
+        os: [ macos-latest, ubuntu-latest ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
