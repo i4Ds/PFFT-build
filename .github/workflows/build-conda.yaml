@@ -25,15 +25,19 @@ jobs:
           conda build -c i4ds -c conda-forge .
       - name: Set vars if Linux
         if: matrix.os == 'ubuntu-latest'
-        run: echo "OS_INST_FOLDER='share' OS_INTERNAL_NAME='linux'" >> "$GITHUB_ENV"
+        run: |
+          echo "internal_folder=share" >> $GITHUB_ENV
+          echo "internal_name=linux" >> $GITHUB_ENV
       - name: Set vars if MacOS
         if: matrix.os == 'macos-latest'
-        run: echo "OS_INST_FOLDER='local' OS_INTERNAL_NAME='osx'" >> "$GITHUB_ENV"
+        run: |
+          echo "internal_folder=local" >> $GITHUB_ENV
+          echo "internal_name=osx" >> $GITHUB_ENV
       - name: Publish to Conda
         shell: bash -l {0}
         run: |
           conda activate base
-          anaconda -t ${{ secrets.ANACONDA_SECRET }} upload /usr/${{ env.OS_INST_FOLDER }}/miniconda/conda-bld/${{ env.OS_INTERNAL_NAME }}-64/pfft*.tar.bz2 --force
+          anaconda -t ${{ secrets.ANACONDA_SECRET }} upload /usr/${{ env.internal_folder }}/miniconda/conda-bld/${{ env.internal_name }}-64/pfft*.tar.bz2 --force
   install_and_test:
     needs: build_and_upload
     runs-on: ${{ matrix.os }}
