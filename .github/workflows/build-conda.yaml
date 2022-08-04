@@ -24,14 +24,10 @@ jobs:
           cd conda/
           conda build -c i4ds -c conda-forge .
       - name: Publish to Conda
-        if: matrix.os == 'ubuntu-latest'
-        env:
-          OS_INST_FOLDER: share
-          OS_INTERNAL_NAME: linux
-        if: matrix.os == 'macos-latest'
-        env:
-          OS_INST_FOLDER: local
-          OS_INTERNAL_NAME: osx
+        if-linux: matrix.os == 'ubuntu-latest'
+        run: echo "OS_INST_FOLDER='share' OS_INTERNAL_NAME='linux'" >> "$GITHUB_ENV"
+        if-mac: matrix.os == 'macos-latest'
+        run: echo "OS_INST_FOLDER='local' OS_INTERNAL_NAME='osx'" >> "$GITHUB_ENV"
         shell: bash -l {0}
         run: |
           conda activate base
