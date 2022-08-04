@@ -2,10 +2,6 @@ name: Build Conda Package
 
 on: [ push ]
 
-env:
-  OS_INST_FOLDER: empty
-  OS_INTERNAL_NAME: empty
-
 jobs:
   build_and_upload:
     strategy:
@@ -29,11 +25,13 @@ jobs:
           conda build -c i4ds -c conda-forge .
       - name: Publish to Conda
         if: matrix.os == 'ubuntu-latest'
-            ${{ env.OS_INST_FOLDER = 'share' }}
-            ${{ env.OS_INTERNAL_NAME = 'linux' }}
+          env:
+            OS_INST_FOLDER: share
+            OS_INTERNAL_NAME: linux
         if: matrix.os == 'macos-latest'
-            ${{ env.OS_INST_FOLDER = 'local' }}
-            ${{ env.OS_INTERNAL_NAME = 'osx' }}
+          env:
+            OS_INST_FOLDER: local
+            OS_INTERNAL_NAME: osx
         shell: bash -l {0}
         run: |
           conda activate base
