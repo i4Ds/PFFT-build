@@ -45,6 +45,9 @@ jobs:
           anaconda -t ${{ secrets.ANACONDA_SECRET }} upload /usr/${{ env.internal_folder }}/miniconda/conda-bld/${{ env.internal_name }}-64/pfft*.tar.bz2 --force
   install_and_test:
     needs: build_and_upload
+    strategy:
+      matrix:
+        os: [ macos-latest, ubuntu-latest ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
