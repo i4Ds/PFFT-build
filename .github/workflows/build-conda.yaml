@@ -15,11 +15,11 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
           auto-update-conda: true
-      - name: Install automake if MacOS
+      - name: Install MacOS dependencies if needed
         if: matrix.os == 'macos-latest'
         run: |
-          brew install automake
           brew install libtool
+          brew install automake
       - name: Install Conda Build
         run: |
           conda install conda-build
